@@ -1,0 +1,7 @@
+domain: ihomefnt.com
+repo: gpu
+resources:
+- group: sigma
+  kind: GpuJob
+  version: v1
+version: "2"

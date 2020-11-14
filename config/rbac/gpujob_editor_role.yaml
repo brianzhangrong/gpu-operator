@@ -1,0 +1,24 @@
+# permissions for end users to edit gpujobs.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: gpujob-editor-role
+rules:
+- apiGroups:
+  - sigma.ihomefnt.com
+  resources:
+  - gpujobs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sigma.ihomefnt.com
+  resources:
+  - gpujobs/status
+  verbs:
+  - get

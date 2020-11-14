@@ -1,0 +1,81 @@
+
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.2.5
+  creationTimestamp: null
+  name: gpujobs.sigma.ihomefnt.com
+spec:
+  group: sigma.ihomefnt.com
+  names:
+    kind: GpuJob
+    listKind: GpuJobList
+    plural: gpujobs
+    singular: gpujob
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      description: GpuJob is the Schema for the gpujobs API
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation
+            of an object. Servers should convert recognized schemas to the latest
+            internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this
+            object represents. Servers may infer this from the endpoint the client
+            submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: GpuJobSpec defines the desired state of GpuJob
+          properties:
+            cpu:
+              type: integer
+            gpu:
+              type: integer
+            jobName:
+              description: Foo is an example field of GpuJob. Edit GpuJob_types.go
+                to remove/update
+              type: string
+            memory:
+              type: integer
+            type:
+              type: string
+          required:
+          - cpu
+          - gpu
+          - memory
+          - type
+          type: object
+        status:
+          description: GpuJobStatus defines the observed state of GpuJob
+          properties:
+            status:
+              type: string
+            update_last_time:
+              description: 'INSERT ADDITIONAL STATUS FIELD - define observed state
+                of cluster Important: Run "make" to regenerate code after modifying
+                this file'
+              format: date-time
+              type: string
+          required:
+          - status
+          - update_last_time
+          type: object
+      type: object
+  version: v1
+  versions:
+  - name: v1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

@@ -1,0 +1,7 @@
+apiVersion: sigma.ihomefnt.com/v1
+kind: GpuJob
+metadata:
+  name: gpujob-sample
+spec:
+  # Add fields here
+  foo: bar
