@@ -18,15 +18,16 @@ package controllers
 
 import (
 	"context"
-	"fmt"
 
 	ihomefntcomv1 "gpu/api/v1"
 
 	"github.com/go-logr/logr"
+	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/reconcile"
 
 	sigmav1 "gpu/api/v1"
 )
@@ -47,20 +48,35 @@ func (r *GpuJobReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	// your logic here
 	var gpujob ihomefntcomv1.GpuJob
-	if err := r.Get(ctx, req.NamespacedName, &gpujob); err != nil {
-		log.Error(err, "unable to get gpujob")
-	} else {
-		fmt.Println("Get gpujob spec info success, ", gpujob.Spec.JobName, gpujob.Spec.Type, gpujob.Spec.CPU, gpujob.Spec.Memory, gpujob.Spec.GPU)
 
+	// fmt.Println("update gpujob status...", gpujob.Status.Status, gpujob.Status.UpdateLastTime, gpujob.APIVersion)
+	if err := r.Get(ctx, req.NamespacedName, &gpujob); err != nil {
+		if err != nil {
+			if errors.IsNotFound(err) {
+				// Object not found, return.  Created objects are automatically garbage collected.
+				// For additional cleanup logic use finalizers.
+				return reconcile.Result{}, nil
+			}
+			// Error reading the object - requeue the request.
+			return reconcile.Result{}, err
+		}
 	}
+	// matchedPods := &corev1.PodList{}
+	// if err := r.List(context.TODO(), matchedPods, &client.ListOptions{}); err != nil {
+	// 	return reconcile.Result{}, err
+	// }
+	// for i := range matchedPods.Items {
+	// 	pod := &matchedPods.Items[i]
+	// 	fmt.Println("----", pod.Kind, pod.Name, pod.Namespace)
+	// }
 
 	gpujob.Status.UpdateLastTime = metav1.Now()
 	gpujob.Status.Status = "Running"
-	// fmt.Println("update gpujob status...", gpujob.Status.Status, gpujob.Status.UpdateLastTime, gpujob.APIVersion)
-
 	if err := r.Update(ctx, &gpujob); err != nil {
-		log.Error(err, "not update gpujob  status.")
+		log.Error(err, "222222 not update gpujob  status.")
+		return ctrl.Result{}, err
 	}
+	log.Info("update status", gpujob.Spec.JobName, gpujob.Status.Status)
 
 	return ctrl.Result{}, nil
 }

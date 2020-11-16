@@ -1,0 +1,53 @@
+
+---
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: MutatingWebhookConfiguration
+metadata:
+  creationTimestamp: null
+  name: mutating-webhook-configuration
+webhooks:
+- clientConfig:
+    caBundle: Cg==
+    service:
+      name: webhook-service
+      namespace: system
+      path: /mutate-sigma-ihomefnt-com-v1-gpujob
+  failurePolicy: Fail
+  name: mgpujob.kb.io
+  rules:
+  - apiGroups:
+    - sigma.ihomefnt.com
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - GpuJob
+
+---
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: ValidatingWebhookConfiguration
+metadata:
+  creationTimestamp: null
+  name: validating-webhook-configuration
+webhooks:
+- clientConfig:
+    caBundle: Cg==
+    service:
+      name: webhook-service
+      namespace: system
+      path: /validate-sigma-ihomefnt-com-v1-gpujob
+  failurePolicy: Fail
+  name: vgpujob.kb.io
+  rules:
+  - apiGroups:
+    - sigma.ihomefnt.com
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - GpuJob

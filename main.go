@@ -28,6 +28,7 @@ import (
 
 	corev1 "k8s.io/api/core/v1"
 
+	sigmaihomefntcomv1 "gpu/api/v1"
 	sigmav1 "gpu/api/v1"
 	"gpu/controllers"
 	// +kubebuilder:scaffold:imports
@@ -43,6 +44,7 @@ func init() {
 
 	_ = sigmav1.AddToScheme(scheme)
 	_ = corev1.AddToScheme(scheme)
+	_ = sigmaihomefntcomv1.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }
 
@@ -77,8 +79,9 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "GpuJob")
 		os.Exit(1)
 	}
-	if err = (&corev1.Pod{}).SetupWebhookWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create webhook", "webhook", "Pod")
+
+	if err = (&sigmav1.GpuJob{}).SetupWebhookWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create webhook", "webhook", "GpuJob")
 		os.Exit(1)
 	}
 	// +kubebuilder:scaffold:builder

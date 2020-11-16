@@ -1,7 +1,11 @@
 apiVersion: sigma.ihomefnt.com/v1
 kind: GpuJob
 metadata:
-  name: gpujob-sample
+  name: job
 spec:
   # Add fields here
-  foo: bar
+  jobName: "123"
+  cpu: 1
+  gpu: 1
+  memory: 1024
+  type: "realtime"
