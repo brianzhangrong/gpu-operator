@@ -67,6 +67,8 @@ spec:
           - status
           - update_last_time
           type: object
+      required:
+      - status
       type: object
   version: v1
   versions:

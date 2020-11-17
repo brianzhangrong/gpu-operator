@@ -52,7 +52,7 @@ type GpuJob struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	Spec   GpuJobSpec   `json:"spec,omitempty"`
-	Status GpuJobStatus `json:"status,omitempty"`
+	Status GpuJobStatus `json:"status"`
 }
 
 // +kubebuilder:object:root=true

@@ -76,7 +76,7 @@ func (r *GpuJobReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		log.Error(err, "222222 not update gpujob  status.")
 		return ctrl.Result{}, err
 	}
-	log.Info("update status", gpujob.Spec.JobName, gpujob.Status.Status)
+	// log.Info("update status", gpujob.Spec.JobName, gpujob.Status.Status)
 
 	return ctrl.Result{}, nil
 }

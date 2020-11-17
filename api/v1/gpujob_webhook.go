@@ -19,6 +19,7 @@ package v1
 import (
 	"fmt"
 
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
@@ -43,8 +44,10 @@ var _ webhook.Defaulter = &GpuJob{}
 // Default implements webhook.Defaulter so a webhook will be registered for the type
 func (r *GpuJob) Default() {
 	fmt.Println("-------------------")
-	gpujoblog.Info("default", "name", r.Name)
 
+	gpujoblog.Info("default", "name", r.Name, r.Kind, r.Spec.CPU)
+	r.Status.Status = "Pending"
+	r.Status.UpdateLastTime = metav1.Now()
 	// TODO(user): fill in your defaulting logic.
 }
 
@@ -55,6 +58,7 @@ var _ webhook.Validator = &GpuJob{}
 
 // ValidateCreate implements webhook.Validator so a webhook will be registered for the type
 func (r *GpuJob) ValidateCreate() error {
+	fmt.Println("1111111111111111")
 	gpujoblog.Info("validate create", "name", r.Name)
 
 	// TODO(user): fill in your validation logic upon object creation.
@@ -63,6 +67,7 @@ func (r *GpuJob) ValidateCreate() error {
 
 // ValidateUpdate implements webhook.Validator so a webhook will be registered for the type
 func (r *GpuJob) ValidateUpdate(old runtime.Object) error {
+	fmt.Println("1111111111111111")
 	gpujoblog.Info("validate update", "name", r.Name)
 
 	// TODO(user): fill in your validation logic upon object update.
@@ -71,6 +76,7 @@ func (r *GpuJob) ValidateUpdate(old runtime.Object) error {
 
 // ValidateDelete implements webhook.Validator so a webhook will be registered for the type
 func (r *GpuJob) ValidateDelete() error {
+	fmt.Println("1111111111111111")
 	gpujoblog.Info("validate delete", "name", r.Name)
 
 	// TODO(user): fill in your validation logic upon object deletion.
