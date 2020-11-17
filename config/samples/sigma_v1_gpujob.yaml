@@ -2,6 +2,7 @@ apiVersion: sigma.ihomefnt.com/v1
 kind: GpuJob
 metadata:
   name: job
+  namespace: system
 spec:
   # Add fields here
   jobName: "123"

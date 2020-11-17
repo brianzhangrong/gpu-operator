@@ -1,0 +1,12 @@
+{
+  "hosts": [
+    "unit-webhook-service.default.svc",
+    "unit-webhook-service.default.svc.cluster.local",
+    "10.51.70.86"
+  ],
+  "CN": "unit-webhook-service",
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  }
+}
