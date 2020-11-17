@@ -1,0 +1,340 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    control-plane: controller-manager
+  name: system
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.2.5
+  name: gpujobs.sigma.ihomefnt.com
+spec:
+  preserveUnknownFields: false
+  conversion:
+    strategy: Webhook
+    webhookClientConfig:
+      caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUR1RENDQXFDZ0F3SUJBZ0lVSkxxMjZkV0M0Ykl0UEJoUXNFWWVIdnQ1QW5Vd0RRWUpLb1pJaHZjTkFRRUwKQlFBd1lURUxNQWtHQTFVRUJoTUNRMDR4RVRBUEJnTlZCQWdUQ0VoaGJtZGFhRzkxTVFzd0NRWURWUVFIRXdKWQpVekVNTUFvR0ExVUVDaE1EYXpoek1ROHdEUVlEVlFRTEV3WlRlWE4wWlcweEV6QVJCZ05WQkFNVENtdDFZbVZ5CmJtVjBaWE13SUJjTk1qQXdOekk1TVRFeU5qQXdXaGdQTWpFeU1EQTNNRFV4TVRJMk1EQmFNR0V4Q3pBSkJnTlYKQkFZVEFrTk9NUkV3RHdZRFZRUUlFd2hJWVc1bldtaHZkVEVMTUFrR0ExVUVCeE1DV0ZNeEREQUtCZ05WQkFvVApBMnM0Y3pFUE1BMEdBMVVFQ3hNR1UzbHpkR1Z0TVJNd0VRWURWUVFERXdwcmRXSmxjbTVsZEdWek1JSUJJakFOCkJna3Foa2lHOXcwQkFRRUZBQU9DQVE4QU1JSUJDZ0tDQVFFQXJ4a25iNXJLWStXdE0yYVBDYWl0WEhROHJlb2kKSHY4cldwMEpCMnBuYjJYdHoxRUlDTk44Uy9pVzNEeElLejYrTzJ0RlZaRUt2QWlIQTlRc1luRWhoQUhFc3JqRwpldGFYWEpMVGNtNVBwcnhOcysyeUM0eG80YWVTQzNKUUF0dDJuNE5VeUdQa1ZTbU93RExqcTJsUFpwdThGbTVICmp0bHVOZDE1ZFZpei9lZ2tidnVOR1ZVVWx0aDRWNHY0NXV2SXozYXRmTDZLaFFQdHVMMGZiU3J6RDhIeEhwUisKTWFITFJNMzVOSzRRWnNvLzduTk5kaUJFUGRoL2ErMlRJYjhHZHRCbEdpVE5CMHF6T20rNXBpdW80b3RlRlRQVwoxTjJLMGJhZFU4OEE4V2RnZE9ta2VuaG9Bekk5UFZ6V2w3cDhlSE83cUlqMlNvMGV1czBjZm1pT2xRSURBUUFCCm8yWXdaREFPQmdOVkhROEJBZjhFQkFNQ0FRWXdFZ1lEVlIwVEFRSC9CQWd3QmdFQi93SUJBakFkQmdOVkhRNEUKRmdRVU1wWm05ZVdVNVlsNEx0bzJZNzBpTk1RME1lNHdId1lEVlIwakJCZ3dGb0FVTXBabTllV1U1WWw0THRvMgpZNzBpTk1RME1lNHdEUVlKS29aSWh2Y05BUUVMQlFBRGdnRUJBQStYcXd1QkxMVnJpOHZERDBOZjIwNG02S3NsCkQvNHdkMFFxVGV0b09rYmc2RUhiZkp0aVV0d2VqK2doQmQyQ2grYyt1dzhuekVHNms2QzhpMXhJN3Nlb3h3ZmcKVmtGaVpTTEhlL0Z5THpMUGQzamJ1ZStqaEVsK25oWHVmQmhvNGtVU2tnK2p6WjRwc0RCSHREVyt4dFMyUmtVUgpVZnlWZUdRcjVWUXB3TkYwSTVpL3ZZV0dCL01BeVY3VFk1Ry9kM0RGYUFEaEZUUmQrUTNMZFppcnZteWxtckFyCjN0ZjMxUS9NMjhIcG4zYW51TSs3cWowRGJBdUY5ZVZYYkNocGxMUWE1alhxdDltWjIrTXZRVjMwVzc3ajZBR2sKVTkzbUlFbDdYUVBPaEpuczBua2crc1Vla0JTb0lPbVNxSWVxVWdmNFluWk90Zm9mamhUOVhFOWdkUmM9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+      service:
+        name: gpu-webhook-service
+        namespace: gpu-system
+        path: /convert
+  group: sigma.ihomefnt.com
+  names:
+    kind: GpuJob
+    listKind: GpuJobList
+    plural: gpujobs
+    singular: gpujob
+  scope: Namespaced
+  validation:
+    openAPIV3Schema:
+      description: GpuJob is the Schema for the gpujobs API
+      properties:
+        apiVersion:
+          description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+          type: string
+        kind:
+          description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+          type: string
+        metadata:
+          type: object
+        spec:
+          description: GpuJobSpec defines the desired state of GpuJob
+          properties:
+            cpu:
+              type: integer
+            gpu:
+              type: integer
+            jobName:
+              description: Foo is an example field of GpuJob. Edit GpuJob_types.go to remove/update
+              type: string
+            memory:
+              type: integer
+            type:
+              type: string
+          required:
+          - cpu
+          - gpu
+          - memory
+          - type
+          type: object
+        status:
+          description: GpuJobStatus defines the observed state of GpuJob
+          type: object
+      type: object
+  version: v1
+  versions:
+  - name: v1
+    served: true
+    storage: true
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: gpu-leader-election-role
+  namespace: gpu-system
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - ""
+  resources:
+  - configmaps/status
+  verbs:
+  - get
+  - update
+  - patch
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: null
+  name: gpu-manager-role
+rules:
+- apiGroups:
+  - sigma.ihomefnt.com
+  resources:
+  - gpujobs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sigma.ihomefnt.com
+  resources:
+  - gpujobs/status
+  verbs:
+  - get
+  - patch
+  - update
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: gpu-proxy-role
+rules:
+- apiGroups:
+  - authentication.k8s.io
+  resources:
+  - tokenreviews
+  verbs:
+  - create
+- apiGroups:
+  - authorization.k8s.io
+  resources:
+  - subjectaccessreviews
+  verbs:
+  - create
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: gpu-metrics-reader
+rules:
+- nonResourceURLs:
+  - /metrics
+  verbs:
+  - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: gpu-leader-election-rolebinding
+  namespace: gpu-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: gpu-leader-election-role
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: gpu-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: gpu-manager-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: gpu-manager-role
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: gpu-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: gpu-proxy-rolebinding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: gpu-proxy-role
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: gpu-system
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    control-plane: controller-manager
+  name: gpu-controller-manager-metrics-service
+  namespace: gpu-system
+spec:
+  ports:
+  - name: https
+    port: 8443
+    targetPort: https
+  selector:
+    control-plane: controller-manager
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gpu-webhook-service
+  namespace: gpu-system
+spec:
+  ports:
+  - port: 443
+    targetPort: 9443
+  selector:
+    control-plane: controller-manager
+---
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   labels:
+#     control-plane: controller-manager
+#   name: gpu-controller-manager
+#   namespace: gpu-system
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       control-plane: controller-manager
+#   template:
+#     metadata:
+#       labels:
+#         control-plane: controller-manager
+#     spec:
+#       containers:
+#       - args:
+#         - --metrics-addr=127.0.0.1:8080
+#         - --enable-leader-election
+#         command:
+#         - /manager
+#         image: zhangrong1027/gpucontroller:latest
+#         name: manager
+#         ports:
+#         - containerPort: 9443
+#           name: webhook-server
+#           protocol: TCP
+#         resources:
+#           limits:
+#             cpu: 100m
+#             memory: 30Mi
+#           requests:
+#             cpu: 100m
+#             memory: 20Mi
+#         volumeMounts:
+#         - mountPath: /tmp/k8s-webhook-server/serving-certs
+#           name: cert
+#           readOnly: true
+#       - args:
+#         - --secure-listen-address=0.0.0.0:8443
+#         - --upstream=http://127.0.0.1:8080/
+#         - --logtostderr=true
+#         - --v=10
+#         image: gcr.io/kubebuilder/kube-rbac-proxy:v0.5.0
+#         name: kube-rbac-proxy
+#         ports:
+#         - containerPort: 8443
+#           name: https
+#       terminationGracePeriodSeconds: 10
+#       volumes:
+#       - name: cert
+#         secret:
+#           defaultMode: 420
+#           secretName: webhook-server-cert
+# ---
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: MutatingWebhookConfiguration
+metadata:
+  creationTimestamp: null
+  name: gpu-mutating-webhook-configuration
+webhooks:
+- clientConfig:
+    caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUR1RENDQXFDZ0F3SUJBZ0lVSkxxMjZkV0M0Ykl0UEJoUXNFWWVIdnQ1QW5Vd0RRWUpLb1pJaHZjTkFRRUwKQlFBd1lURUxNQWtHQTFVRUJoTUNRMDR4RVRBUEJnTlZCQWdUQ0VoaGJtZGFhRzkxTVFzd0NRWURWUVFIRXdKWQpVekVNTUFvR0ExVUVDaE1EYXpoek1ROHdEUVlEVlFRTEV3WlRlWE4wWlcweEV6QVJCZ05WQkFNVENtdDFZbVZ5CmJtVjBaWE13SUJjTk1qQXdOekk1TVRFeU5qQXdXaGdQTWpFeU1EQTNNRFV4TVRJMk1EQmFNR0V4Q3pBSkJnTlYKQkFZVEFrTk9NUkV3RHdZRFZRUUlFd2hJWVc1bldtaHZkVEVMTUFrR0ExVUVCeE1DV0ZNeEREQUtCZ05WQkFvVApBMnM0Y3pFUE1BMEdBMVVFQ3hNR1UzbHpkR1Z0TVJNd0VRWURWUVFERXdwcmRXSmxjbTVsZEdWek1JSUJJakFOCkJna3Foa2lHOXcwQkFRRUZBQU9DQVE4QU1JSUJDZ0tDQVFFQXJ4a25iNXJLWStXdE0yYVBDYWl0WEhROHJlb2kKSHY4cldwMEpCMnBuYjJYdHoxRUlDTk44Uy9pVzNEeElLejYrTzJ0RlZaRUt2QWlIQTlRc1luRWhoQUhFc3JqRwpldGFYWEpMVGNtNVBwcnhOcysyeUM0eG80YWVTQzNKUUF0dDJuNE5VeUdQa1ZTbU93RExqcTJsUFpwdThGbTVICmp0bHVOZDE1ZFZpei9lZ2tidnVOR1ZVVWx0aDRWNHY0NXV2SXozYXRmTDZLaFFQdHVMMGZiU3J6RDhIeEhwUisKTWFITFJNMzVOSzRRWnNvLzduTk5kaUJFUGRoL2ErMlRJYjhHZHRCbEdpVE5CMHF6T20rNXBpdW80b3RlRlRQVwoxTjJLMGJhZFU4OEE4V2RnZE9ta2VuaG9Bekk5UFZ6V2w3cDhlSE83cUlqMlNvMGV1czBjZm1pT2xRSURBUUFCCm8yWXdaREFPQmdOVkhROEJBZjhFQkFNQ0FRWXdFZ1lEVlIwVEFRSC9CQWd3QmdFQi93SUJBakFkQmdOVkhRNEUKRmdRVU1wWm05ZVdVNVlsNEx0bzJZNzBpTk1RME1lNHdId1lEVlIwakJCZ3dGb0FVTXBabTllV1U1WWw0THRvMgpZNzBpTk1RME1lNHdEUVlKS29aSWh2Y05BUUVMQlFBRGdnRUJBQStYcXd1QkxMVnJpOHZERDBOZjIwNG02S3NsCkQvNHdkMFFxVGV0b09rYmc2RUhiZkp0aVV0d2VqK2doQmQyQ2grYyt1dzhuekVHNms2QzhpMXhJN3Nlb3h3ZmcKVmtGaVpTTEhlL0Z5THpMUGQzamJ1ZStqaEVsK25oWHVmQmhvNGtVU2tnK2p6WjRwc0RCSHREVyt4dFMyUmtVUgpVZnlWZUdRcjVWUXB3TkYwSTVpL3ZZV0dCL01BeVY3VFk1Ry9kM0RGYUFEaEZUUmQrUTNMZFppcnZteWxtckFyCjN0ZjMxUS9NMjhIcG4zYW51TSs3cWowRGJBdUY5ZVZYYkNocGxMUWE1alhxdDltWjIrTXZRVjMwVzc3ajZBR2sKVTkzbUlFbDdYUVBPaEpuczBua2crc1Vla0JTb0lPbVNxSWVxVWdmNFluWk90Zm9mamhUOVhFOWdkUmM9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    # service:
+    #   name: gpu-webhook-service
+    #   namespace: gpu-system
+    url: https://10.51.70.86:9443/mutate-sigma-ihomefnt-com-v1-gpujob
+  failurePolicy: Fail
+  name: mgpujob.kb.io
+  rules:
+  - apiGroups:
+    - sigma.ihomefnt.com
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - gpujobs
+---
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: ValidatingWebhookConfiguration
+metadata:
+  creationTimestamp: null
+  name: gpu-validating-webhook-configuration
+webhooks:
+- clientConfig:
+    caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUR1RENDQXFDZ0F3SUJBZ0lVSkxxMjZkV0M0Ykl0UEJoUXNFWWVIdnQ1QW5Vd0RRWUpLb1pJaHZjTkFRRUwKQlFBd1lURUxNQWtHQTFVRUJoTUNRMDR4RVRBUEJnTlZCQWdUQ0VoaGJtZGFhRzkxTVFzd0NRWURWUVFIRXdKWQpVekVNTUFvR0ExVUVDaE1EYXpoek1ROHdEUVlEVlFRTEV3WlRlWE4wWlcweEV6QVJCZ05WQkFNVENtdDFZbVZ5CmJtVjBaWE13SUJjTk1qQXdOekk1TVRFeU5qQXdXaGdQTWpFeU1EQTNNRFV4TVRJMk1EQmFNR0V4Q3pBSkJnTlYKQkFZVEFrTk9NUkV3RHdZRFZRUUlFd2hJWVc1bldtaHZkVEVMTUFrR0ExVUVCeE1DV0ZNeEREQUtCZ05WQkFvVApBMnM0Y3pFUE1BMEdBMVVFQ3hNR1UzbHpkR1Z0TVJNd0VRWURWUVFERXdwcmRXSmxjbTVsZEdWek1JSUJJakFOCkJna3Foa2lHOXcwQkFRRUZBQU9DQVE4QU1JSUJDZ0tDQVFFQXJ4a25iNXJLWStXdE0yYVBDYWl0WEhROHJlb2kKSHY4cldwMEpCMnBuYjJYdHoxRUlDTk44Uy9pVzNEeElLejYrTzJ0RlZaRUt2QWlIQTlRc1luRWhoQUhFc3JqRwpldGFYWEpMVGNtNVBwcnhOcysyeUM0eG80YWVTQzNKUUF0dDJuNE5VeUdQa1ZTbU93RExqcTJsUFpwdThGbTVICmp0bHVOZDE1ZFZpei9lZ2tidnVOR1ZVVWx0aDRWNHY0NXV2SXozYXRmTDZLaFFQdHVMMGZiU3J6RDhIeEhwUisKTWFITFJNMzVOSzRRWnNvLzduTk5kaUJFUGRoL2ErMlRJYjhHZHRCbEdpVE5CMHF6T20rNXBpdW80b3RlRlRQVwoxTjJLMGJhZFU4OEE4V2RnZE9ta2VuaG9Bekk5UFZ6V2w3cDhlSE83cUlqMlNvMGV1czBjZm1pT2xRSURBUUFCCm8yWXdaREFPQmdOVkhROEJBZjhFQkFNQ0FRWXdFZ1lEVlIwVEFRSC9CQWd3QmdFQi93SUJBakFkQmdOVkhRNEUKRmdRVU1wWm05ZVdVNVlsNEx0bzJZNzBpTk1RME1lNHdId1lEVlIwakJCZ3dGb0FVTXBabTllV1U1WWw0THRvMgpZNzBpTk1RME1lNHdEUVlKS29aSWh2Y05BUUVMQlFBRGdnRUJBQStYcXd1QkxMVnJpOHZERDBOZjIwNG02S3NsCkQvNHdkMFFxVGV0b09rYmc2RUhiZkp0aVV0d2VqK2doQmQyQ2grYyt1dzhuekVHNms2QzhpMXhJN3Nlb3h3ZmcKVmtGaVpTTEhlL0Z5THpMUGQzamJ1ZStqaEVsK25oWHVmQmhvNGtVU2tnK2p6WjRwc0RCSHREVyt4dFMyUmtVUgpVZnlWZUdRcjVWUXB3TkYwSTVpL3ZZV0dCL01BeVY3VFk1Ry9kM0RGYUFEaEZUUmQrUTNMZFppcnZteWxtckFyCjN0ZjMxUS9NMjhIcG4zYW51TSs3cWowRGJBdUY5ZVZYYkNocGxMUWE1alhxdDltWjIrTXZRVjMwVzc3ajZBR2sKVTkzbUlFbDdYUVBPaEpuczBua2crc1Vla0JTb0lPbVNxSWVxVWdmNFluWk90Zm9mamhUOVhFOWdkUmM9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    # service:
+    #   name: gpu-webhook-service
+    #   namespace: gpu-system
+    url: https://10.51.70.86:9443/validate-sigma-ihomefnt-com-v1-gpujob
+  failurePolicy: Fail
+  name: vgpujob.kb.io
+  rules:
+  - apiGroups:
+    - sigma.ihomefnt.com
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - gpujobs

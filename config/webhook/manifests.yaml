@@ -50,4 +50,4 @@ webhooks:
     - CREATE
     - UPDATE
     resources:
-    - GpuJob
+    - gpujobs

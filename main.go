@@ -26,8 +26,6 @@ import (
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	corev1 "k8s.io/api/core/v1"
-
 	sigmaihomefntcomv1 "gpu/api/v1"
 	sigmav1 "gpu/api/v1"
 	"gpu/controllers"
@@ -43,7 +41,6 @@ func init() {
 	_ = clientgoscheme.AddToScheme(scheme)
 
 	_ = sigmav1.AddToScheme(scheme)
-	_ = corev1.AddToScheme(scheme)
 	_ = sigmaihomefntcomv1.AddToScheme(scheme)
 	// +kubebuilder:scaffold:scheme
 }
@@ -84,6 +81,7 @@ func main() {
 		setupLog.Error(err, "unable to create webhook", "webhook", "GpuJob")
 		os.Exit(1)
 	}
+
 	// +kubebuilder:scaffold:builder
 
 	setupLog.Info("starting manager")

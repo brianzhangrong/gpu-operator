@@ -40,8 +40,6 @@ type GpuJobSpec struct {
 type GpuJobStatus struct {
 	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
-	UpdateLastTime metav1.Time `json:"update_last_time"`
-	Status         string      `json:"status"`
 }
 
 // +kubebuilder:object:root=true
@@ -52,7 +50,7 @@ type GpuJob struct {
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
 	Spec   GpuJobSpec   `json:"spec,omitempty"`
-	Status GpuJobStatus `json:"status"`
+	Status GpuJobStatus `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
